@@ -12,6 +12,10 @@ O objetivo desta versão foi **refatorar progressivamente** a base para ganhar:
 - correções de fluxo funcional
 - maior previsibilidade para deploy e demonstração pública
 
+## Live Demo
+
+- https://projeto-php-al6z.onrender.com/
+
 ## O que este projeto demonstra
 
 - Capacidade de trabalhar em cima de legado sem “reescrever tudo do zero”
