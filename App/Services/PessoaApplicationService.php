@@ -75,7 +75,7 @@ class PessoaApplicationService
         catch (Throwable $e)
         {
             Transaction::rollback();
-            throw $e;
+            throw new Exception(DatabaseErrorService::toUserMessage($e, 'Não foi possível excluir a pessoa.'), 0, $e);
         }
     }
 

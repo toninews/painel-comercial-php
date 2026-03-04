@@ -68,7 +68,7 @@ class ProdutoApplicationService
         catch (Throwable $e)
         {
             Transaction::rollback();
-            throw $e;
+            throw new Exception(DatabaseErrorService::toUserMessage($e, 'Não foi possível excluir o produto.'), 0, $e);
         }
     }
 

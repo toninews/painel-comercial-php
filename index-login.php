@@ -30,7 +30,11 @@ HTML;
 $content = '';
 AuthService::boot();
 $isLogged = AuthService::isLogged();
-$class = $isLogged ? NavigationService::getDefaultPrivatePage() : 'LoginForm';
+$showLoginOnRoot = (getenv('APP_SHOW_LOGIN_ON_ROOT') ?: '1') === '1';
+$isRootRequest = !isset($_GET['class']) && !isset($_GET['method']);
+$forceLoginScreen = $showLoginOnRoot && $isRootRequest;
+
+$class = ($isLogged && !$forceLoginScreen) ? NavigationService::getDefaultPrivatePage() : 'LoginForm';
 
 if (isset($_GET['class']) && $isLogged)
 {
@@ -62,7 +66,14 @@ if ($class && RouteGuard::isAllowedPageClass($class))
     }
 }
 
-$isLogged = AuthService::isLogged();
+if (!$forceLoginScreen)
+{
+    $isLogged = AuthService::isLogged();
+}
+else
+{
+    $isLogged = false;
+}
 
 if ($isLogged && $class === 'LoginForm') {
     $class = NavigationService::getDefaultPrivatePage();

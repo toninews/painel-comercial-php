@@ -68,7 +68,7 @@ class FabricanteApplicationService
         catch (Throwable $e)
         {
             Transaction::rollback();
-            throw $e;
+            throw new Exception(DatabaseErrorService::toUserMessage($e, 'Não foi possível excluir o fabricante.'), 0, $e);
         }
     }
 

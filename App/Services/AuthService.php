@@ -11,8 +11,42 @@ class AuthService
     public static function isLogged()
     {
         self::boot();
+        if (!(bool) Session::getValue('logged'))
+        {
+            return false;
+        }
 
-        return (bool) Session::getValue('logged');
+        $mode = (string) (Session::getValue('auth_mode') ?: '');
+        $user = (string) (Session::getValue('auth_user') ?: '');
+
+        if ($mode === '' || $user === '')
+        {
+            self::logout();
+            return false;
+        }
+
+        $expectedUser = '';
+        if ($mode === 'admin')
+        {
+            $expectedUser = (string) (getenv('APP_LOGIN') ?: '');
+        }
+        else if ($mode === 'demo')
+        {
+            $expectedUser = (string) (getenv('APP_DEMO_LOGIN') ?: '');
+        }
+        else
+        {
+            self::logout();
+            return false;
+        }
+
+        if ($expectedUser === '' || $user !== $expectedUser)
+        {
+            self::logout();
+            return false;
+        }
+
+        return true;
     }
 
     public static function attempt($login, $password)
