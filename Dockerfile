@@ -6,7 +6,7 @@ RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoload
 FROM php:8.2-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libzip-dev libpq-dev unzip \
+    && apt-get install -y --no-install-recommends libzip-dev libpq-dev libsqlite3-dev pkg-config unzip \
     && docker-php-ext-install pdo pdo_sqlite pdo_pgsql \
     && a2enmod rewrite headers expires \
     && rm -rf /var/lib/apt/lists/*
