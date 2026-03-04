@@ -150,6 +150,18 @@ O projeto já possui arquivos prontos para deploy:
 - `docker/apache-vhost.conf`
 - `docker/entrypoint.sh`
 
+No deploy com `DB_TYPE=pgsql`, o `entrypoint` valida se o schema existe.  
+Se o banco estiver vazio, ele inicializa automaticamente com:
+
+- `php scripts/reset_demo_db.php`
+- `php scripts/reseed_minimal_demo.php`
+
+Para desativar essa inicialização automática, configure:
+
+```env
+APP_AUTO_INIT_DB=0
+```
+
 ## Roadmap técnico
 
 - continuar extração de regras de negócio para serviços
