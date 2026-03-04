@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+.env.*
+tmp
+estudos
+vendor
+composer.phar
+App/Database/painel_comercial.db
+node_modules

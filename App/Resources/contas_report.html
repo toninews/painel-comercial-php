@@ -1,0 +1,50 @@
+<section class="report-shell">
+    <header class="report-shell__header">
+        <div>
+            <span class="report-shell__eyebrow">Relatório</span>
+            <h3>{{report_title}}</h3>
+            <p>{{report_subtitle}}</p>
+        </div>
+        <div class="report-shell__stats">
+            <article>
+                <span>Contas</span>
+                <strong>{{total_contas}}</strong>
+            </article>
+            <article>
+                <span>Total</span>
+                <strong>R$ {{total_valor|number_format(2, ',', '.')}}</strong>
+            </article>
+        </div>
+    </header>
+
+    <table class="table report-table" width="100%">
+        <thead>
+            <tr>
+                <th>Emissão</th>
+                <th>Vencimento</th>
+                <th>Cliente</th>
+                <th>Valor</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for conta in contas %}
+                <tr>
+                    <td align="center">{{conta.dt_emissao|date("d/m/Y")}}</td>
+                    <td align="center">{{conta.dt_vencimento|date("d/m/Y")}}</td>
+                    <td>{{conta.nome_cliente}}</td>
+                    <td align="right">R$ {{conta.valor|number_format(2, ',', '.')}}</td>
+                    <td align="center">
+                        <span class="report-badge {{conta.paga == 'S' ? 'report-badge--success' : 'report-badge--danger'}}">
+                            {{conta.paga == 'S' ? 'Paga' : 'Aberta'}}
+                        </span>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="report-table__empty">Nenhuma conta encontrada para o período informado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>

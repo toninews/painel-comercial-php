@@ -1,0 +1,81 @@
+<section class="report-shell">
+    {% if sale_saved %}
+        <div class="report-inline-notice report-inline-notice--success">
+            Venda registrada com sucesso.
+        </div>
+    {% endif %}
+
+    {% if report_error is defined and report_error %}
+        <div class="report-inline-notice report-inline-notice--error">
+            {{report_error}}
+        </div>
+    {% endif %}
+
+    <header class="report-shell__header">
+        <div>
+            <span class="report-shell__eyebrow">Relatório</span>
+            <h3>{{report_title}}</h3>
+            <p>{{report_subtitle}}</p>
+        </div>
+        <div class="report-shell__stats">
+            <article>
+                <span>Vendas</span>
+                <strong>{{total_vendas}}</strong>
+            </article>
+            <article>
+                <span>Faturado</span>
+                <strong>R$ {{total_faturado|number_format(2, ',', '.')}}</strong>
+            </article>
+        </div>
+    </header>
+
+    {% for venda in vendas %}
+        <article class="report-sale-card">
+            <header class="report-sale-card__header">
+                <div>
+                    <strong>{{venda.nome_cliente}}</strong>
+                    <span>
+                        {{venda.data_venda|date("d/m/Y")}}
+                        {% if venda.parcelas %}
+                            • {{venda.parcelas}}x
+                        {% endif %}
+                    </span>
+                </div>
+                <strong>R$ {{venda.valor_final|number_format(2, ',', '.')}}</strong>
+            </header>
+
+            <table class="table report-table" width="100%">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Preço</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for item in venda.itens %}
+                        <tr>
+                            <td align="center">{{item.id_produto}}</td>
+                            <td>{{item.descricao}}</td>
+                            <td align="right">{{item.quantidade}}</td>
+                            <td align="right">R$ {{item.preco|number_format(2, ',', '.')}}</td>
+                            <td align="right">R$ {{(item.quantidade * item.preco)|number_format(2, ',', '.')}}</td>
+                        </tr>
+                        {% set total = total + (item.quantidade * item.preco) %}
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" align="right"><strong>Total dos itens</strong></td>
+                        <td align="right"><strong>R$ {{total|number_format(2, ',', '.')}}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </article>
+    {% else %}
+        <div class="report-table__empty">Nenhuma venda encontrada para o período informado.</div>
+    {% endfor %}
+</section>

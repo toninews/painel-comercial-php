@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: projeto-php
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /index-login.php
+    envVars:
+      - key: APP_LOGIN
+        sync: false
+      - key: APP_PASSWORD_HASH
+        sync: false
+      - key: APP_DEMO_LOGIN
+        value: demo
+      - key: APP_DEMO_PASSWORD_HASH
+        sync: false
+      - key: APP_DEMO_DISPLAY_LOGIN
+        value: demo
+      - key: APP_DEMO_DISPLAY_PASSWORD
+        value: demo123
+      - key: DB_TYPE
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: projeto-php-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: projeto-php-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: projeto-php-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: projeto-php-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: projeto-php-db
+          property: password
+
+databases:
+  - name: projeto-php-db
+    plan: free

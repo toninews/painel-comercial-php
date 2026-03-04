@@ -1,0 +1,7 @@
+/vendor/
+/composer.phar
+/tmp/*
+!/tmp/.gitkeep
+/estudos/
+.env
+.env.*

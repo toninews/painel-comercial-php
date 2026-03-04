@@ -1,0 +1,51 @@
+<section class="chart-card">
+  <header class="chart-card__header">
+    <div>
+      <span class="chart-card__eyebrow">Indicador</span>
+      <h3>{{title}}</h3>
+    </div>
+    <strong>{{chart_total}}</strong>
+  </header>
+  <p class="chart-card__caption">{{chart_caption}}</p>
+  <div class="chart-card__canvas">
+    <canvas id="{{chart_id}}" height="280"></canvas>
+  </div>
+</section>
+
+<script>
+  new Chart(document.getElementById("{{chart_id}}"), {
+      type: 'pie',
+      data: {
+        labels: {{labels|raw}},
+        datasets: [{
+          label: "Vendas",
+          backgroundColor: [ '#cf6d47','#de8f53','#f2c173','#7ba79f','#4f7f79','#c78282','#bd9a6f','#84553d','#dba56a','#98b5af' ],
+          borderColor: '#fff8f0',
+          borderWidth: 3,
+          data: {{data|raw}}
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom',
+          labels: {
+            fontColor: '#5f5a53',
+            boxWidth: 14
+          }
+        },
+        tooltips: {
+          backgroundColor: '#2d2721',
+          titleFontColor: '#fff5ea',
+          bodyFontColor: '#fff5ea',
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.labels[tooltipItem.index] || '';
+              var value = data.datasets[0].data[tooltipItem.index] || 0;
+              return label + ': R$ ' + Number(value).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }
+          }
+        }
+      }
+  });
+</script>

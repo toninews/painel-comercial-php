@@ -1,0 +1,46 @@
+<section class="report-shell">
+  <header class="report-shell__header">
+    <div>
+      <span class="crud-hero__eyebrow">Etiquetas e consulta rápida</span>
+      <h3>Relatório de produtos</h3>
+      <p>Visual pensado para consulta, impressão e conferência de código de barras e QR code sem o aspecto cru do material original.</p>
+    </div>
+    <div class="report-shell__stats">
+      <article>
+        <span>Produtos</span>
+        <strong>{{ total_produtos }}</strong>
+      </article>
+      <article>
+        <span>Estoque total</span>
+        <strong>{{ total_estoque }}</strong>
+      </article>
+    </div>
+  </header>
+
+  {% if produtos %}
+    <section class="report-product-grid">
+      {% for produto in produtos %}
+        <article class="report-product-card">
+          <div class="report-product-card__meta">
+            <span class="report-badge report-badge--success">#{{ produto.id }}</span>
+            <strong>{{ produto.descricao }}</strong>
+            <small>{{ produto.estoque_formatado }} unidades em estoque</small>
+            <small>Preço de venda: R$ {{ produto.preco_venda_formatado }}</small>
+          </div>
+          <div class="report-product-card__codes">
+            <div class="report-product-card__barcode">
+              {{ produto.barcode | raw }}
+            </div>
+            <div class="report-product-card__qrcode">
+              {{ produto.qrcode | raw }}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <div class="report-table__empty">
+      Nenhum produto encontrado para gerar o relatório.
+    </div>
+  {% endif %}
+</section>

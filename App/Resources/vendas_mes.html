@@ -1,0 +1,65 @@
+<section class="chart-card">
+  <header class="chart-card__header">
+    <div>
+      <span class="chart-card__eyebrow">Indicador</span>
+      <h3>{{title}}</h3>
+    </div>
+    <strong>{{chart_total}}</strong>
+  </header>
+  <p class="chart-card__caption">{{chart_caption}}</p>
+  <div class="chart-card__canvas">
+    <canvas id="{{chart_id}}" height="280"></canvas>
+  </div>
+</section>
+
+<script>
+ new Chart(document.getElementById("{{chart_id}}"), {
+  type: 'bar',
+  data: {
+    labels: {{labels|raw}},
+    datasets: [
+      {
+        label: "Vendas",
+        backgroundColor: [ '#cf6d47','#de8f53','#ebb977','#f5d99d','#7ba79f','#5f8f89','#436e69','#d07f7f','#c69468','#a56b4b','#8f5136','#e7b36a' ],
+        data: {{data|raw}},
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: '#fff7ef',
+      }
+    ]
+  },
+  options: {
+    legend: { display: false },
+    maintainAspectRatio: false,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          fontColor: '#5f5a53'
+        },
+        gridLines: {
+          color: 'rgba(95, 90, 83, 0.10)'
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          fontColor: '#5f5a53'
+        },
+        gridLines: {
+          display: false
+        }
+      }]
+    },
+    tooltips: {
+      backgroundColor: '#2d2721',
+      titleFontColor: '#fff5ea',
+      bodyFontColor: '#fff5ea',
+      callbacks: {
+        label: function(tooltipItem) {
+          return 'R$ ' + Number(tooltipItem.yLabel).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+      }
+    }
+  }
+ });
+</script>

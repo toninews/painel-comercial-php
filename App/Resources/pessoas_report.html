@@ -1,0 +1,48 @@
+<section class="report-shell">
+    <header class="report-shell__header">
+        <div>
+            <span class="report-shell__eyebrow">Relatorio</span>
+            <h3>{{report_title}}</h3>
+            <p>{{report_subtitle}}</p>
+        </div>
+        <div class="report-shell__stats">
+            <article>
+                <span>Pessoas</span>
+                <strong>{{total_pessoas}}</strong>
+            </article>
+            <article>
+                <span>Em aberto</span>
+                <strong>R$ {{total_aberto|number_format(2, ',', '.')}}</strong>
+            </article>
+        </div>
+    </header>
+
+    <table class="table report-table" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Total</th>
+                <th>Aberto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pessoa in pessoas %}
+            <tr>
+                <td align="center">{{pessoa.id}}</td>
+                <td>{{pessoa.nome}}</td>
+                <td align="center">{{pessoa.telefone}}</td>
+                <td align="center">{{pessoa.email}}</td>
+                <td align="right">R$ {{pessoa.total|number_format(2, ',', '.')}}</td>
+                <td align="right">R$ {{pessoa.aberto|number_format(2, ',', '.')}}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="report-table__empty">Nenhum saldo de pessoa encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
